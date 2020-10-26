@@ -17,22 +17,6 @@ public class PlaceDescription {
     String path;
 
 
-    public PlaceDescription(String name, String description, String category, String addressTitle,
-                            String addressStreet, double elevation, double latitude, double longtitude, String path) {
-        this.name = name;
-        this.description = description;
-        this.category = category;
-        this.addressTitle = addressTitle;
-        this.addressStreet = addressStreet;
-        this.elevation = elevation;
-        this.latitude = latitude;
-        this.longtitude = longtitude;
-        this.path = path;
-
-        JsonHandler jHandler = new JsonHandler(name, description, category, addressTitle, addressStreet, elevation, latitude, longtitude, path);
-
-    }
-
 
 
     public String getName() {

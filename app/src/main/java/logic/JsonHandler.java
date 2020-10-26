@@ -3,6 +3,7 @@ package logic;
 import android.content.Context;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.simple.*;
@@ -17,6 +18,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
+import logic.PlaceDescription;
 
 
 public class JsonHandler {
@@ -25,6 +29,7 @@ public class JsonHandler {
     double elevation,  latitude,  longtitude;
     JSONObject jsonObject;
     String path;
+    List<PlaceDescription> places = new ArrayList<>();
 
 
     public JsonHandler(String name, String description, String category, String addressTitle,
@@ -51,8 +56,6 @@ public class JsonHandler {
             jsonObject.put("longitude", longtitude);
             try {
                 writeJson(jsonObject);
-                JSONObject test = readJSON();
-                System.out.println("NAME: " + test.get("name").toString());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -77,7 +80,7 @@ public class JsonHandler {
 
     }
 
-    public JSONObject readJSON() throws IOException, JSONException {
+    public void readJSON() throws IOException, JSONException {
         System.out.println("PATH: " + path);
         FileReader fileReader = new FileReader(path+ "/info.json");
         BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -96,9 +99,23 @@ public class JsonHandler {
         }
         bufferedReader.close();
         String result = stringBuilder.toString();
-        JSONObject readObject = new JSONObject(result);
 
-        return readObject;
+        JSONArray readObject = new JSONArray(result);
+
+        for(int i = 0; i < readObject.length(); i++){
+            JSONObject temp = readObject.getJSONObject(i);
+            PlaceDescription place = new PlaceDescription();
+            place.setAddressStreet(temp.getString("address-street"));
+            place.setAddressTitle(temp.getString("address-title"));
+            place.setCategory(temp.getString("category"));
+            place.setDescription(temp.getString("description"));
+            place.setElevation(temp.getDouble("elevation"));
+            place.setLatitude(temp.getDouble("latitude"));
+            place.setLongtitude(temp.getDouble("longitude"));
+            place.setName(temp.getString("name"));
+
+            System.out.println(place.getName());
+        }
     }
 
 
