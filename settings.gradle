@@ -1,0 +1,2 @@
+rootProject.name='GeoLoc'
+include ':app'
