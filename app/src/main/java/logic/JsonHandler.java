@@ -154,4 +154,8 @@ public class JsonHandler {
         }
         return false;
     }
+
+    public List<PlaceDescription> getPlaceDescriptionList(){
+        return places;
+    }
 }
