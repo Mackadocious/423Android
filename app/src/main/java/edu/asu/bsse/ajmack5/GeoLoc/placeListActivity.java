@@ -15,28 +15,35 @@ import logic.JsonHandler;
 public class placeListActivity extends AppCompatActivity {
 
     JsonHandler jHandler;
+    ListView listView;
+   ArrayAdapter<String> arrayAdapter;
+    String path;
+
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Context context = this;
-        final String path = context.getFilesDir().toString();
+        String path = context.getFilesDir().toString();
         super.onCreate(savedInstanceState);
-        ListView listView;
+
         setContentView(R.layout.place_list);
 
 
-        final JsonHandler jHandler = new JsonHandler(path);
+        jHandler = new JsonHandler(path);
 
         listView = (ListView) findViewById(R.id.placesListView);
         List<String> namesOfPlaces = new ArrayList<String>();
         for (int i = 0; i < jHandler.getPlaceDescriptionList().size(); i++) {
+            System.out.println("ADDING");
             namesOfPlaces.add(jHandler.getPlaceDescriptionList().get(i).getName());
         }
 
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, namesOfPlaces);
+        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, namesOfPlaces);
         listView.setAdapter(arrayAdapter);
     }
+
+
 
 }
