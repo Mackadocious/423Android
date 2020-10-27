@@ -32,6 +32,7 @@ public class JsonHandler {
     List<PlaceDescription> places = new ArrayList<>();
 
 
+// takes parameter for file path of app
     public JsonHandler(String pathToApplicationFileFolder){
         path = pathToApplicationFileFolder;
         try {
@@ -44,7 +45,7 @@ public class JsonHandler {
 
 
     }
-
+//reads entire list of places and creates and returns a json array of all places
     private JSONArray createJSONSArrayFromPlaces() throws JSONException {
         JSONArray jsonArray = new JSONArray();
 
@@ -66,7 +67,9 @@ public class JsonHandler {
 
     }
 
-
+//calls the createJSONArrayFromPlaces functions, creates a
+    //json array from all places, and writes it to the path passed
+    //to the constructor.
     public void writeJson() throws IOException, JSONException {
         Writer output = null;
         File file = new File(path + "/info.json");
@@ -77,7 +80,8 @@ public class JsonHandler {
 
 
     }
-
+//reads json array from the path passed to the constructor and creates
+    //places objects.
     public void readJSON() throws IOException, JSONException {
         System.out.println("PATH: " + path);
         if (new File(path+"/info.json").exists()) {
@@ -121,7 +125,7 @@ public class JsonHandler {
             }
         }
     }
-
+//adds a place to the placedescription list
     public void addPlace(PlaceDescription place){
         places.add(place);
         try {
