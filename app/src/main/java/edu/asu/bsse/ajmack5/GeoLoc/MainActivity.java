@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.io.File;
 
@@ -65,7 +66,12 @@ public class MainActivity extends AppCompatActivity {
                 place.setElevation(Double.valueOf(editElevation.getText().toString()));
                 place.setLatitude(Double.valueOf(editLat.getText().toString()));
                 place.setLongtitude(Double.valueOf(editLong.getText().toString()));
-                jHandler.addPlace(place);
+                if(!jHandler.placeExists(editName.getText().toString())) {
+                    jHandler.addPlace(place);
+                }
+                else{
+                    Toast.makeText(MainActivity.this, "Place name already exists", Toast.LENGTH_SHORT).show();
+                }
 
             };
         });

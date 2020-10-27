@@ -108,7 +108,9 @@ public class JsonHandler {
                 JSONArray readObject = new JSONArray(result);
 
                 for (int i = 0; i < readObject.length(); i++) {
+
                     JSONObject temp = readObject.getJSONObject(i);
+
                     PlaceDescription place = new PlaceDescription();
                     place.setAddressStreet(temp.getString("address-street"));
                     place.setAddressTitle(temp.getString("address-title"));
@@ -130,6 +132,7 @@ public class JsonHandler {
         places.add(place);
         try {
             writeJson();
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {
@@ -138,6 +141,17 @@ public class JsonHandler {
     }
 
 
+    public boolean placeExists(String name) {
+        for (int i = 0; i < places.size(); i++) {
+            System.out.println("PLACE: " + places.size());
+            if (places.get(i).getName().equalsIgnoreCase(name)) {
+
+                return true;
+            } else {
 
 
+            }
+        }
+        return false;
+    }
 }
