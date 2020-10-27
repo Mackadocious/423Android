@@ -10,10 +10,11 @@ import android.widget.EditText;
 
 import java.io.File;
 
+import logic.JsonHandler;
 import logic.PlaceDescription;
 
 public class MainActivity extends AppCompatActivity {
-    PlaceDescription place;
+
     EditText editName;
     EditText editDescription;
     EditText editCategory;
@@ -45,23 +46,29 @@ public class MainActivity extends AppCompatActivity {
         editLong = (EditText)findViewById(R.id.editLong);
         Context context = this;
         final String path = context.getFilesDir().toString();
+        final JsonHandler jHandler = new JsonHandler(path);
 
 
+        ///creates a new place when the when button is pressed.
         submitButton = (Button)findViewById(R.id.inputLocationBut);
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 System.out.println("PATH: "+ path);
 
-                place = new PlaceDescription(editName.getText().toString(), editDescription.getText().toString(), editCategory.getText().toString(),
-                        editAddress.getText().toString(), editStreet.getText().toString(), Double.valueOf(editElevation.getText().toString()),
-                        Double.valueOf(editLat.getText().toString()), Double.valueOf(editLong.getText().toString()), path);
-
-
+                PlaceDescription place = new PlaceDescription();
+                place.setName(editName.getText().toString());
+                place.setDescription(editDescription.getText().toString());
+                place.setCategory(editCategory.getText().toString());
+                place.setAddressTitle(editAddress.getText().toString());
+                place.setAddressStreet(editStreet.getText().toString());
+                place.setElevation(Double.valueOf(editElevation.getText().toString()));
+                place.setLatitude(Double.valueOf(editLat.getText().toString()));
+                place.setLongtitude(Double.valueOf(editLong.getText().toString()));
+                jHandler.addPlace(place);
 
             };
         });
-
 
 
 

@@ -32,35 +32,12 @@ public class JsonHandler {
     List<PlaceDescription> places = new ArrayList<>();
 
 
-    public JsonHandler(String name, String description, String category, String addressTitle,
-                       String addressStreet, double elevation, double latitude, double longtitude, String path) {
-        this.name = name;
-        this.description = description;
-        this.category = category;
-        this.addressTitle = addressTitle;
-        this.addressStreet = addressStreet;
-        this.elevation = elevation;
-        this.latitude = latitude;
-        this.longtitude = longtitude;
-        jsonObject = new JSONObject();
-        this.path = path;
-
+    public JsonHandler(String pathToApplicationFileFolder){
+        path = pathToApplicationFileFolder;
         try {
-            jsonObject.put("name", name);
-            jsonObject.put("description", description);
-            jsonObject.put("category", category);
-            jsonObject.put("address-title", addressTitle);
-            jsonObject.put("address-street", addressStreet);
-            jsonObject.put("elevation", elevation);
-            jsonObject.put("latitude", latitude);
-            jsonObject.put("longitude", longtitude);
-            try {
-                writeJson(jsonObject);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-
+            readJSON();
+        } catch (IOException e) {
+            e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -68,12 +45,33 @@ public class JsonHandler {
 
     }
 
+    private JSONArray createJSONSArrayFromPlaces() throws JSONException {
+        JSONArray jsonArray = new JSONArray();
 
-    public void writeJson(JSONObject jsonObject) throws IOException, JSONException {
+        for(int i = 0; i < places.size(); i++){
+            PlaceDescription currentPlaces = places.get(i);
+            JSONObject jo = new JSONObject();
+            jo.put("name", currentPlaces.name);
+            jo.put("description", currentPlaces.description);
+            jo.put("category", currentPlaces.category);
+            jo.put("address-street", currentPlaces.addressStreet);
+            jo.put("address-title", currentPlaces.addressTitle);
+            jo.put("longitude", currentPlaces.longtitude);
+            jo.put("latitude", currentPlaces.latitude);
+            jo.put("elevation", currentPlaces.elevation);
+            jsonArray.put(jo);
+
+        }
+        return jsonArray;
+
+    }
+
+
+    public void writeJson() throws IOException, JSONException {
         Writer output = null;
         File file = new File(path + "/info.json");
         output = new BufferedWriter(new FileWriter(file));
-        output.write(jsonObject.toString());
+        output.write(createJSONSArrayFromPlaces().toString());
         output.close();
 
 
@@ -82,39 +80,56 @@ public class JsonHandler {
 
     public void readJSON() throws IOException, JSONException {
         System.out.println("PATH: " + path);
-        FileReader fileReader = new FileReader(path+ "/info.json");
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
-        StringBuilder stringBuilder = new StringBuilder();
-        String input = null;
+        if (new File(path+"/info.json").exists()) {
+            FileReader fileReader = new FileReader(path + "/info.json");
+
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            StringBuilder stringBuilder = new StringBuilder();
+            String input = null;
+            try {
+                input = bufferedReader.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            while (input != null) {
+                stringBuilder.append(input).append("\n");
+                input = bufferedReader.readLine();
+                System.out.println("OUTPUT: " + input);
+
+            }
+            bufferedReader.close();
+            String result = stringBuilder.toString();
+            if (result != null) {
+
+                JSONArray readObject = new JSONArray(result);
+
+                for (int i = 0; i < readObject.length(); i++) {
+                    JSONObject temp = readObject.getJSONObject(i);
+                    PlaceDescription place = new PlaceDescription();
+                    place.setAddressStreet(temp.getString("address-street"));
+                    place.setAddressTitle(temp.getString("address-title"));
+                    place.setCategory(temp.getString("category"));
+                    place.setDescription(temp.getString("description"));
+                    place.setElevation(temp.getDouble("elevation"));
+                    place.setLatitude(temp.getDouble("latitude"));
+                    place.setLongtitude(temp.getDouble("longitude"));
+                    place.setName(temp.getString("name"));
+                    places.add(place);
+
+                    System.out.println(place.getName());
+                }
+            }
+        }
+    }
+
+    public void addPlace(PlaceDescription place){
+        places.add(place);
         try {
-            input = bufferedReader.readLine();
+            writeJson();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        while(input != null){
-            stringBuilder.append(input).append("\n");
-            input = bufferedReader.readLine();
-            System.out.println("OUTPUT: " + input);
-
-        }
-        bufferedReader.close();
-        String result = stringBuilder.toString();
-
-        JSONArray readObject = new JSONArray(result);
-
-        for(int i = 0; i < readObject.length(); i++){
-            JSONObject temp = readObject.getJSONObject(i);
-            PlaceDescription place = new PlaceDescription();
-            place.setAddressStreet(temp.getString("address-street"));
-            place.setAddressTitle(temp.getString("address-title"));
-            place.setCategory(temp.getString("category"));
-            place.setDescription(temp.getString("description"));
-            place.setElevation(temp.getDouble("elevation"));
-            place.setLatitude(temp.getDouble("latitude"));
-            place.setLongtitude(temp.getDouble("longitude"));
-            place.setName(temp.getString("name"));
-
-            System.out.println(place.getName());
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 
