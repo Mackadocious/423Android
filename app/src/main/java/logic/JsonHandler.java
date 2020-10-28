@@ -158,4 +158,15 @@ public class JsonHandler {
     public List<PlaceDescription> getPlaceDescriptionList(){
         return places;
     }
+
+    public PlaceDescription getPlace(String placeName) {
+        PlaceDescription resultPlace = null;
+        for(int i = 0; i < places.size(); i++){
+            if(places.get(i).name.equalsIgnoreCase(placeName)){
+                resultPlace = places.get(i);
+            }
+
+        }
+        return resultPlace;
+    }
 }

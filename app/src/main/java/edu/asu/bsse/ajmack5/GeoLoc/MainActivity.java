@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     ListView listView;
     ArrayAdapter<String> arrayAdapter;
     String path;
+    TextView resultView;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         final Intent addPlaceIntent = new Intent(this, addPlaceActivity.class);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        resultView = (TextView) findViewById(R.id.resultView);
 
         getSupportActionBar().setTitle("GeoLoc"); // for set actionbar title
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -65,13 +68,26 @@ public class MainActivity extends AppCompatActivity {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Object o = listView.getItemAtPosition(position);
-                System.out.println(o.toString());
+                setResultView(jHandler.getPlace(o.toString()));
             }
+
+
         });
+
+
 
 
     }
 
+
+    private void setResultView(PlaceDescription place) {
+        String result = ("name: + " + place.getName() + "\ndescription: " + place.getDescription() + "\ncategory: " + place.getCategory() +
+                "\naddress-title: " + place.getAddressTitle() + "\naddress-street: " + place.getAddressStreet() + "\nelevation: " + place.getElevation()
+                + "\nlatitude: " + place.getLatitude() + "\nlongitude: " + place.getLongtitude());
+        resultView.setText(result);
+
+
+    }
 
 
 
