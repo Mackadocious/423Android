@@ -29,8 +29,7 @@ public class JsonHandler {
     double elevation,  latitude,  longtitude;
     JSONObject jsonObject;
     String path;
-    List<PlaceDescription> places = new ArrayList<>();
-
+    PlaceLibrary placeLibrary = new PlaceLibrary();
 
 // takes parameter for file path of app
     public JsonHandler(String pathToApplicationFileFolder){
@@ -49,8 +48,8 @@ public class JsonHandler {
     private JSONArray createJSONSArrayFromPlaces() throws JSONException {
         JSONArray jsonArray = new JSONArray();
 
-        for(int i = 0; i < places.size(); i++){
-            PlaceDescription currentPlaces = places.get(i);
+        for(int i = 0; i < placeLibrary.getPlaceLibrary().size(); i++){
+            PlaceDescription currentPlaces = placeLibrary.getPlaceLibrary().get(i);
             JSONObject jo = new JSONObject();
             jo.put("name", currentPlaces.name);
             jo.put("description", currentPlaces.description);
@@ -120,7 +119,7 @@ public class JsonHandler {
                     place.setLatitude(temp.getDouble("latitude"));
                     place.setLongtitude(temp.getDouble("longitude"));
                     place.setName(temp.getString("name"));
-                    places.add(place);
+                    placeLibrary.addPlace(place);
 
                     System.out.println(place.getName());
                 }
@@ -129,7 +128,7 @@ public class JsonHandler {
     }
 //adds a place to the placedescription list
     public void addPlace(PlaceDescription place){
-        places.add(place);
+        placeLibrary.addPlace(place);
         try {
             writeJson();
 
@@ -142,9 +141,9 @@ public class JsonHandler {
 
 
     public boolean placeExists(String name) {
-        for (int i = 0; i < places.size(); i++) {
-            System.out.println("PLACE: " + places.size());
-            if (places.get(i).getName().equalsIgnoreCase(name)) {
+        for (int i = 0; i < placeLibrary.getPlaceLibrary().size(); i++) {
+            System.out.println("PLACE: " + placeLibrary.getPlaceLibrary().size());
+            if (placeLibrary.getPlaceLibrary().get(i).getName().equalsIgnoreCase(name)) {
 
                 return true;
             } else {
@@ -155,18 +154,22 @@ public class JsonHandler {
         return false;
     }
 
-    public List<PlaceDescription> getPlaceDescriptionList(){
-        return places;
-    }
+
 
     public PlaceDescription getPlace(String placeName) {
         PlaceDescription resultPlace = null;
-        for(int i = 0; i < places.size(); i++){
-            if(places.get(i).name.equalsIgnoreCase(placeName)){
-                resultPlace = places.get(i);
+        for(int i = 0; i < placeLibrary.getPlaceLibrary().size(); i++){
+            if(placeLibrary.getPlaceLibrary().get(i).name.equalsIgnoreCase(placeName)){
+                resultPlace = placeLibrary.getPlaceLibrary().get(i);
             }
 
         }
         return resultPlace;
     }
+
+    public PlaceLibrary getPlaceLibrary(){
+        return placeLibrary;
+    }
+
+
 }

@@ -35,9 +35,9 @@ public class placeListActivity extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.placesListView);
         List<String> namesOfPlaces = new ArrayList<String>();
-        for (int i = 0; i < jHandler.getPlaceDescriptionList().size(); i++) {
+        for (int i = 0; i < jHandler.getPlaceLibrary().getPlaceLibrary().size(); i++) {
             System.out.println("ADDING");
-            namesOfPlaces.add(jHandler.getPlaceDescriptionList().get(i).getName());
+            namesOfPlaces.add(jHandler.getPlaceLibrary().getPlaceLibrary().get(i).getName());
         }
 
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, namesOfPlaces);

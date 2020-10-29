@@ -29,6 +29,16 @@
             android:background="#00aaaaaa">
 
             <Button
+                android:id="@+id/addNewPlace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorPrimary"
+                android:text="Add"
+                android:textColor="#000"
+                android:textSize="16dp" />
+
+            <Button
+                android:id="@+id/deleteButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?attr/colorPrimary"
@@ -37,11 +47,11 @@
                 android:textSize="16dp" />
 
             <Button
-                android:id="@+id/addNewPlace"
+                android:id="@+id/modifyButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?attr/colorPrimary"
-                android:text="Add"
+                android:text="Modify"
                 android:textColor="#000"
                 android:textSize="16dp" />
 
@@ -51,8 +61,8 @@
 
     <ListView
         android:id="@+id/placesListView"
-        android:layout_width="403dp"
-        android:layout_height="362dp"
+        android:layout_width="398dp"
+        android:layout_height="209dp"
         android:layout_marginTop="15dp"
         android:choiceMode="multipleChoiceModal"
         android:listSelector="@android:color/darker_gray"
@@ -63,18 +73,17 @@
 
     <TextView
         android:id="@+id/resultView"
-        android:layout_width="389dp"
-        android:layout_height="238dp"
+        android:layout_width="175dp"
+        android:layout_height="151dp"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="40dp"
         android:layout_marginBottom="21dp"
-        android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.482"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/placesListView"
-        app:layout_constraintVertical_bias="0.218" />
+        app:layout_constraintVertical_bias="0.092" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

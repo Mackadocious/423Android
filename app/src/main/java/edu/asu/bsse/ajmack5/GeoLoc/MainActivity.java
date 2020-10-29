@@ -14,6 +14,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,9 +29,11 @@ public class MainActivity extends AppCompatActivity {
     ArrayAdapter<String> arrayAdapter;
     String path;
     TextView resultView;
+    String selectedItem;
 
 
     protected void onCreate(Bundle savedInstanceState) {
+        selectedItem = "";
         Context context = this;
         String path = context.getFilesDir().toString();
         final Intent viewPlacesIntent = new Intent(this, placeListActivity.class);
@@ -44,9 +49,9 @@ public class MainActivity extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.placesListView);
         List<String> namesOfPlaces = new ArrayList<String>();
-        for (int i = 0; i < jHandler.getPlaceDescriptionList().size(); i++) {
+        for (int i = 0; i < jHandler.getPlaceLibrary().getPlaceLibrary().size(); i++) {
             System.out.println("ADDING");
-            namesOfPlaces.add(jHandler.getPlaceDescriptionList().get(i).getName());
+            namesOfPlaces.add(jHandler.getPlaceLibrary().getPlaceLibrary().get(i).getName());
         }
 
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, namesOfPlaces);
@@ -56,8 +61,33 @@ public class MainActivity extends AppCompatActivity {
         final Button addNewPlace = findViewById(R.id.addNewPlace);
         addNewPlace.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
                 startActivity(addPlaceIntent);
+
+
+            }
+        });
+
+        final Button deletePlace = findViewById(R.id.deleteButton);
+        deletePlace.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                jHandler.getPlaceLibrary().removePlace(selectedItem);
+                try {
+                    jHandler.writeJson();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                List<String> namesOfPlaces = new ArrayList<String>();
+                for (int i = 0; i < jHandler.getPlaceLibrary().getPlaceLibrary().size(); i++) {
+                    System.out.println("ADDING");
+                    namesOfPlaces.add(jHandler.getPlaceLibrary().getPlaceLibrary().get(i).getName());
+                }
+                arrayAdapter.remove(selectedItem);
+                arrayAdapter.notifyDataSetChanged();
+
+
 
 
             }
@@ -69,10 +99,15 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Object o = listView.getItemAtPosition(position);
                 setResultView(jHandler.getPlace(o.toString()));
+                selectedItem  = jHandler.getPlace(o.toString()).getName();
+
+
             }
 
 
         });
+
+
 
 
 
