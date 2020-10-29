@@ -3,6 +3,7 @@ package edu.asu.bsse.ajmack5.GeoLoc;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         final Intent viewPlacesIntent = new Intent(this, placeListActivity.class);
         final Intent addPlaceIntent = new Intent(this, addPlaceActivity.class);
         final Intent modifyPlaceIntent = new Intent(this, ModifyPlaceActivity.class);
+        final Intent calcIntent = new Intent(this, CalcActivity.class);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         resultView = (TextView) findViewById(R.id.resultView);
@@ -75,6 +77,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick (View v){
                 modifyPlaceIntent.putExtra("nameOfPlace", selectedItem);
                 startActivity(modifyPlaceIntent);
+            }
+        });
+
+        final Button calcButton = findViewById(R.id.calcButton);
+        calcButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick (View v){
+                startActivity(calcIntent);
             }
         });
 

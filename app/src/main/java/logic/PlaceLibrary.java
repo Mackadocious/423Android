@@ -1,11 +1,14 @@
 package logic;
 
+import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlaceLibrary {
+public class PlaceLibrary implements Serializable {
 
-    List<PlaceDescription> places = new ArrayList<>();
+    public List<PlaceDescription> places = new ArrayList<>();
 
     public List<PlaceDescription> getPlaceLibrary(){
         return places;
