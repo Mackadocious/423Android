@@ -51,7 +51,7 @@ public class addPlaceActivity extends AppCompatActivity {
 
 
         ///creates a new place when the when button is pressed.
-        submitButton = (Button)findViewById(R.id.inputLocationBut);
+        submitButton = (Button)findViewById(R.id.modifyButton);
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

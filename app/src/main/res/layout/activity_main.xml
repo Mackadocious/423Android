@@ -29,6 +29,15 @@
             android:background="#00aaaaaa">
 
             <Button
+                android:id="@+id/calcButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorPrimary"
+                android:text="Calc"
+                android:textColor="#000"
+                android:textSize="16dp" />
+
+            <Button
                 android:id="@+id/addNewPlace"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

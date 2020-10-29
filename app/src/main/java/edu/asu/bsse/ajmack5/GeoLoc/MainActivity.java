@@ -18,6 +18,7 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import logic.JsonHandler;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         String path = context.getFilesDir().toString();
         final Intent viewPlacesIntent = new Intent(this, placeListActivity.class);
         final Intent addPlaceIntent = new Intent(this, addPlaceActivity.class);
+        final Intent modifyPlaceIntent = new Intent(this, ModifyPlaceActivity.class);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         resultView = (TextView) findViewById(R.id.resultView);
@@ -53,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("ADDING");
             namesOfPlaces.add(jHandler.getPlaceLibrary().getPlaceLibrary().get(i).getName());
         }
+        Collections.sort(namesOfPlaces);
 
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, namesOfPlaces);
         listView.setAdapter(arrayAdapter);
@@ -64,6 +67,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(addPlaceIntent);
 
 
+            }
+        });
+
+        final Button modifyPlace = findViewById(R.id.modifyButton);
+        modifyPlace.setOnClickListener(new View.OnClickListener(){
+            public void onClick (View v){
+                modifyPlaceIntent.putExtra("nameOfPlace", selectedItem);
+                startActivity(modifyPlaceIntent);
             }
         });
 
@@ -106,9 +117,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         });
-
-
-
 
 
 
