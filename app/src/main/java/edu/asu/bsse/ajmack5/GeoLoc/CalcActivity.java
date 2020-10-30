@@ -3,7 +3,9 @@ package edu.asu.bsse.ajmack5.GeoLoc;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +18,8 @@ import logic.PlaceDescription;
 import logic.PlaceLibrary;
 
 public class CalcActivity extends AppCompatActivity {
+    Spinner sItems01;
+    Spinner sItems02;
 
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -29,7 +33,7 @@ public class CalcActivity extends AppCompatActivity {
 
             List<PlaceDescription> placeArray = jhandler.getPlaceLibrary().places;
             List<String> spinnerArray = new ArrayList<>();
-            for(int i = 0; i < spinnerArray.size(); i++) {
+            for(int i = 0; i < placeArray.size(); i++) {
                 spinnerArray.add(placeArray.get(i).getName());
                 System.out.println(placeArray.get(i).getName());
             }
@@ -38,10 +42,20 @@ public class CalcActivity extends AppCompatActivity {
                     this, android.R.layout.simple_spinner_item, spinnerArray);
 
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            Spinner sItems01 = (Spinner) findViewById(R.id.spinner01);
-            Spinner sItems02 = (Spinner) findViewById(R.id.spinner02);
+            sItems01 = (Spinner) findViewById(R.id.spinner01);
+            sItems02 = (Spinner) findViewById(R.id.spinner02);
             sItems01.setAdapter(adapter);
             sItems02.setAdapter(adapter);
 
+            final Button calcButton = findViewById(R.id.calcButton);
+            calcButton.setOnClickListener(new View.OnClickListener(){
+                public void onClick (View v){
+                   calcDistance();
+                   calcBearing();
+                }
+            });
+
         }
+
+
 }
