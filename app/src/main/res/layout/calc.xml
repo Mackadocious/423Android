@@ -27,7 +27,7 @@
         app:layout_constraintTop_toBottomOf="@+id/spinner01" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/calcButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="163dp"
@@ -35,13 +35,13 @@
         android:layout_marginEnd="160dp"
         android:layout_marginBottom="36dp"
         android:text="Button"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintBottom_toTopOf="@+id/resultView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinner02" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/resultView"
         android:layout_width="280dp"
         android:layout_height="128dp"
         android:layout_marginStart="66dp"
@@ -52,5 +52,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/calcButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>
