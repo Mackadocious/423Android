@@ -28,7 +28,7 @@ public class CalcActivity extends AppCompatActivity {
 
             Context context = this;
             final String path = context.getFilesDir().toString();
-            JsonHandler jhandler = new JsonHandler(path);
+            final JsonHandler jhandler = new JsonHandler(path);
 
 
             List<PlaceDescription> placeArray = jhandler.getPlaceLibrary().places;
@@ -50,12 +50,35 @@ public class CalcActivity extends AppCompatActivity {
             final Button calcButton = findViewById(R.id.calcButton);
             calcButton.setOnClickListener(new View.OnClickListener(){
                 public void onClick (View v){
-                   calcDistance();
-                   calcBearing();
+                   calcDistance(jhandler.getPlace(sItems01.getSelectedItem().toString()), jhandler.getPlace(sItems02.getSelectedItem().toString()));
+                   calcBearing(jhandler.getPlace(sItems01.getSelectedItem().toString()), jhandler.getPlace(sItems02.getSelectedItem().toString()));
                 }
             });
 
         }
+
+    private void calcBearing(PlaceDescription place1, PlaceDescription place2) {
+    }
+
+    private void calcDistance(PlaceDescription place1, PlaceDescription place2) {
+
+        if ((place1.getLatitude() == place2.getLatitude()) && (place1.getLongtitude() == place2.getLongtitude())) {
+            return 0;
+        }
+		else {
+            double theta = place1.getLongtitude() - place2.getLongtitude();
+            double dist = Math.sin(Math.toRadians(place1.getLatitude())) * Math.sin(Math.toRadians(place2.getLatitude())) + Math.cos(Math.toRadians(place1.getLatitude())) * Math.cos(Math.toRadians(place2.getLatitude())) * Math.cos(Math.toRadians(theta));
+            dist = Math.acos(dist);
+            dist = Math.toDegrees(dist);
+            dist = dist * 60 * 1.1515;
+            if (unit.equals("K")) {
+                dist = dist * 1.609344;
+            } else if (unit.equals("N")) {
+                dist = dist * 0.8684;
+            }
+            return (dist);
+        }
+    }
 
 
 }
