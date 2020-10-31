@@ -59,6 +59,8 @@ public class CalcActivity extends AppCompatActivity {
                         jhandler.getPlace(sItems02.getSelectedItem().toString()))+ " Meters\n");
                 result += "Bearing: " + calcBearing(jhandler.getPlace(sItems01.getSelectedItem().toString()),
                         jhandler.getPlace(sItems02.getSelectedItem().toString())) + "\n";
+                        result += "Great Circle: " + calcGreatCircle(jhandler.getPlace(sItems01.getSelectedItem().toString()),
+                                jhandler.getPlace(sItems02.getSelectedItem().toString())) + " NM \n";
                 setResult();
             }
         });
@@ -95,12 +97,42 @@ public class CalcActivity extends AppCompatActivity {
     }
 
     double calcBearing(PlaceDescription place1, PlaceDescription place2){
+        double lat1 = place1.getLatitude();
+        double long1 = place1.getLongtitude();
+        double lat2 = place2.getLatitude();
+        double long2 = place2.getLongtitude();
 
-        double longDiff= place2.getLongtitude()-place1.getLongtitude();
-        double y = Math.sin(longDiff)*Math.cos(place2.getLatitude());
-        double x = Math.cos(place1.getLatitude())*Math.sin(place2.getLatitude())-Math.sin(place1.getLatitude())*Math.cos(place2.getLatitude())*Math.cos(longDiff);
+        double longitude1 = long1;
+        double longitude2 = long2;
+        double latitude1 = Math.toRadians(lat1);
+        double latitude2 = Math.toRadians(lat2);
+        double longDiff= Math.toRadians(longitude2-longitude1);
+        double y= Math.sin(longDiff)*Math.cos(latitude2);
+        double x=Math.cos(latitude1)*Math.sin(latitude2)-Math.sin(latitude1)*Math.cos(latitude2)*Math.cos(longDiff);
 
-        return Math.toDegrees((Math.atan2(y, x))+360)%360;
+        return (Math.toDegrees(Math.atan2(y, x))+360)%360;
+
+
+    }
+
+    double calcGreatCircle(PlaceDescription place1, PlaceDescription place2){
+
+        double lat1 = Math.toRadians(place1.getLatitude());
+        double long1 = Math.toRadians(place1.getLongtitude());
+        double lat2 = Math.toRadians(place2.getLatitude());
+        double long2 = Math.toRadians(place2.getLongtitude());
+
+        double angle1 = Math.acos(Math.sin(lat1) * Math.sin(lat2)
+                + Math.cos(lat1) * Math.cos(lat2) * Math.cos(long1 - long2));
+
+        // convert back to degrees
+        angle1 = Math.toDegrees(angle1);
+
+        // each degree on a great circle of Earth is 60 nautical miles
+        double distance1 = 60 * angle1;
+
+        return distance1;
+
     }
 
 
