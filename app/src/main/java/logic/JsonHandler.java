@@ -19,6 +19,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import logic.PlaceDescription;
@@ -175,14 +179,45 @@ public class JsonHandler {
 
     private class getPlacesFromRPC extends AsyncTask{
 
-        @Override
-        protected Object doInBackground(Object[] objects) {
-            return null;
+        public static final int READ_TIMEOUT = 15000;
+        public static final int CONNECTION_TIMEOUT = 15000;
+        public static final String REQUEST_METHOD = "GET";
+
+
+
+
+            protected Object doInBackground(Object[] objects){
+
+
+                 stringUrl = objects[0];
+                String result;
+                try {
+                    //Create a URL object holding our url
+                    URL myUrl = new URL(stringUrl);         //Create a connection
+                    HttpURLConnection connection = null;         //Set methods and timeouts
+
+                    connection = (HttpURLConnection)
+                            myUrl.openConnection();
+
+
+                    connection.setRequestMethod(REQUEST_METHOD);
+
+                    connection.setReadTimeout(READ_TIMEOUT);
+                    connection.setConnectTimeout(CONNECTION_TIMEOUT);
+
+                    //Connect to our url
+                    connection.connect()
+
+                } catch (ProtocolException e) {
+                    e.printStackTrace();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+                return result;
+            }
         }
-
-
     }
-
-
-
-}
