@@ -1,6 +1,7 @@
 package logic;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -170,6 +171,18 @@ public class JsonHandler {
     public PlaceLibrary getPlaceLibrary(){
         return placeLibrary;
     }
+
+
+    private class getPlacesFromRPC extends AsyncTask{
+
+        @Override
+        protected Object doInBackground(Object[] objects) {
+            return null;
+        }
+
+
+    }
+
 
 
 }
