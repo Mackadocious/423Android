@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.jar.JarEntry;
 
+import logic.DatabaseHandler;
 import logic.JsonHandler;
 import logic.PlaceDescription;
 
@@ -30,6 +31,7 @@ public class ModifyPlaceActivity extends AppCompatActivity {
     Context context;
     JsonHandler jHandler;
     String name;
+    DatabaseHandler dhandler;
 
 
     @Override
@@ -49,6 +51,8 @@ public class ModifyPlaceActivity extends AppCompatActivity {
         Context context = this;
         final String path = context.getFilesDir().toString();
         jHandler = new JsonHandler(path);
+        dhandler = new DatabaseHandler(context);
+
 
         editName.setEnabled(false);
 
@@ -69,8 +73,9 @@ public class ModifyPlaceActivity extends AppCompatActivity {
                 place.setElevation(Double.valueOf(editElevation.getText().toString()));
                 place.setLatitude(Double.valueOf(editLat.getText().toString()));
                 place.setLongtitude(Double.valueOf(editLong.getText().toString()));
-                jHandler.getPlaceLibrary().removePlace(name);
-                jHandler.addPlace(place);
+                dhandler.getPlaceLibrary().removePlace(name);
+                dhandler.deletePlace(name);
+                dhandler.addPlace(place);
                 Toast.makeText(ModifyPlaceActivity.this, "Modified place", Toast.LENGTH_SHORT).show();
                 startActivity(mainIntent);
 
@@ -84,7 +89,7 @@ public class ModifyPlaceActivity extends AppCompatActivity {
         Intent intent = getIntent();
         name = intent.getExtras().getString("nameOfPlace");
         editName.setText(name);
-        PlaceDescription selectedPlace = jHandler.getPlace(name);
+        PlaceDescription selectedPlace = dhandler.getPlace(name);
         editDescription.setText(selectedPlace.getDescription());
         editCategory.setText(selectedPlace.getCategory());
         editAddress.setText(selectedPlace.getAddressTitle());

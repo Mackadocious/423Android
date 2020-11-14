@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
 
+import logic.DatabaseHandler;
 import logic.JsonHandler;
 import logic.PlaceDescription;
 
@@ -22,6 +23,7 @@ public class CalcActivity extends AppCompatActivity {
     Spinner sItems02;
     String result;
     TextView resultView;
+    DatabaseHandler dhandler;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +36,10 @@ public class CalcActivity extends AppCompatActivity {
         Context context = this;
         final String path = context.getFilesDir().toString();
         final JsonHandler jhandler = new JsonHandler(path);
+        dhandler = new DatabaseHandler(context);
 
 
-        List<PlaceDescription> placeArray = jhandler.getPlaceLibrary().places;
+        List<PlaceDescription> placeArray = dhandler.getPlaceLibrary().places;
         List<String> spinnerArray = new ArrayList<>();
         for (int i = 0; i < placeArray.size(); i++) {
             spinnerArray.add(placeArray.get(i).getName());
@@ -55,12 +58,12 @@ public class CalcActivity extends AppCompatActivity {
         final Button calcButton = findViewById(R.id.calcButton);
         calcButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                result = (" Distance: " + calcDistance(jhandler.getPlace(sItems01.getSelectedItem().toString()),
-                        jhandler.getPlace(sItems02.getSelectedItem().toString()))+ " Meters\n");
-                result += "Bearing: " + calcBearing(jhandler.getPlace(sItems01.getSelectedItem().toString()),
-                        jhandler.getPlace(sItems02.getSelectedItem().toString())) + "\n";
-                        result += "Great Circle: " + calcGreatCircle(jhandler.getPlace(sItems01.getSelectedItem().toString()),
-                                jhandler.getPlace(sItems02.getSelectedItem().toString())) + " NM \n";
+                result = (" Distance: " + calcDistance(dhandler.getPlace(sItems01.getSelectedItem().toString()),
+                        dhandler.getPlace(sItems02.getSelectedItem().toString()))+ " Meters\n");
+                result += "Bearing: " + calcBearing(dhandler.getPlace(sItems01.getSelectedItem().toString()),
+                        dhandler.getPlace(sItems02.getSelectedItem().toString())) + "\n";
+                        result += "Great Circle: " + calcGreatCircle(dhandler.getPlace(sItems01.getSelectedItem().toString()),
+                                dhandler.getPlace(sItems02.getSelectedItem().toString())) + " NM \n";
                 setResult();
             }
         });

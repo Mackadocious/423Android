@@ -39,6 +39,15 @@ public class PlaceLibrary implements Serializable {
         }
     }
 
+    public boolean placeExists(String name){
+     for(int i = 0 ; i < places.size(); i++){
+         if(name.equalsIgnoreCase(places.get(i).getName())){
+             return true;
+         }
+     }
+     return false;
+    }
+
 
 }
 

@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import logic.DatabaseHandler;
 import logic.JsonHandler;
 import logic.PlaceDescription;
 
@@ -35,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     protected void onCreate(Bundle savedInstanceState) {
+        final DatabaseHandler dhandler = new DatabaseHandler(this);
+        dhandler.getPlaceLibrary();
+
         selectedItem = "";
         Context context = this;
         String path = context.getFilesDir().toString();
@@ -46,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         resultView = (TextView) findViewById(R.id.resultView);
 
+
         getSupportActionBar().setTitle("GeoLoc"); // for set actionbar title
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -53,9 +58,9 @@ public class MainActivity extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.placesListView);
         List<String> namesOfPlaces = new ArrayList<String>();
-        for (int i = 0; i < jHandler.getPlaceLibrary().getPlaceLibrary().size(); i++) {
+        for (int i = 0; i < dhandler.getPlaceLibrary().getPlaceLibrary().size(); i++) {
             System.out.println("ADDING");
-            namesOfPlaces.add(jHandler.getPlaceLibrary().getPlaceLibrary().get(i).getName());
+            namesOfPlaces.add(dhandler.getPlaceLibrary().getPlaceLibrary().get(i).getName());
         }
         Collections.sort(namesOfPlaces);
 
@@ -90,19 +95,14 @@ public class MainActivity extends AppCompatActivity {
         final Button deletePlace = findViewById(R.id.deleteButton);
         deletePlace.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                jHandler.getPlaceLibrary().removePlace(selectedItem);
-                try {
-                    jHandler.writeJson();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                dhandler.getPlaceLibrary().removePlace(selectedItem);
+                dhandler.deletePlace(selectedItem);
+
 
                 List<String> namesOfPlaces = new ArrayList<String>();
-                for (int i = 0; i < jHandler.getPlaceLibrary().getPlaceLibrary().size(); i++) {
+                for (int i = 0; i < dhandler.getPlaceLibrary().getPlaceLibrary().size(); i++) {
                     System.out.println("ADDING");
-                    namesOfPlaces.add(jHandler.getPlaceLibrary().getPlaceLibrary().get(i).getName());
+                    namesOfPlaces.add(dhandler.getPlaceLibrary().getPlaceLibrary().get(i).getName());
                 }
                 arrayAdapter.remove(selectedItem);
                 arrayAdapter.notifyDataSetChanged();
@@ -118,8 +118,8 @@ public class MainActivity extends AppCompatActivity {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Object o = listView.getItemAtPosition(position);
-                setResultView(jHandler.getPlace(o.toString()));
-                selectedItem  = jHandler.getPlace(o.toString()).getName();
+                setResultView(dhandler.getPlace(o.toString()));
+                selectedItem  = dhandler.getPlace(o.toString()).getName();
 
 
             }

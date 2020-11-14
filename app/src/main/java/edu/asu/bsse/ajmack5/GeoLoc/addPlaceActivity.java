@@ -10,8 +10,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import logic.DatabaseHandler;
 import logic.JsonHandler;
 import logic.PlaceDescription;
+import logic.PlaceLibrary;
 
 public class addPlaceActivity extends AppCompatActivity {
 
@@ -48,6 +50,7 @@ public class addPlaceActivity extends AppCompatActivity {
         Context context = this;
         final String path = context.getFilesDir().toString();
         final JsonHandler jHandler = new JsonHandler(path);
+        final DatabaseHandler dhandler = new DatabaseHandler(context);
 
 
         ///creates a new place when the when button is pressed.
@@ -66,8 +69,9 @@ public class addPlaceActivity extends AppCompatActivity {
                 place.setElevation(Double.valueOf(editElevation.getText().toString()));
                 place.setLatitude(Double.valueOf(editLat.getText().toString()));
                 place.setLongtitude(Double.valueOf(editLong.getText().toString()));
-                if(!jHandler.placeExists(editName.getText().toString())) {
-                    jHandler.addPlace(place);
+                PlaceLibrary places = dhandler.getPlaceLibrary();
+                if(!places.placeExists(editName.getText().toString())) {
+                    dhandler.addPlace(place);
                     startActivity(mainIntent);
                     Toast.makeText(addPlaceActivity.this, "Added place to library", Toast.LENGTH_SHORT).show();
 

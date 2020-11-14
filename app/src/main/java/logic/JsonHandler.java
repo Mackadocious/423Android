@@ -28,6 +28,7 @@ import static android.database.sqlite.SQLiteDatabase.openOrCreateDatabase;
 
 
 public class JsonHandler {
+
     String name, description, category, addressTitle,
     addressStreet;
     double elevation,  latitude,  longtitude;
@@ -43,10 +44,7 @@ public class JsonHandler {
 
     // takes parameter for file path of app
     public JsonHandler(String pathToApplicationFileFolder){
-        mydatabase = openOrCreateDatabase(SQLiteDatabase.CursorFactory factory);
-        mydatabase.execSQL("CREATE TABLE IF NOT EXISTS places(name VARCHAR,description VARCHAR, cateogry VARCHAR, addresstitle VARCHAR," +
-                "addressstreet VARCHAR, elevation REAL, longitude REAL, latitude REAL);");
-        //mydatabase.execSQL("INSERT INTO TutorialsPoint VALUES('admin','admin');");
+
 
 
         path = pathToApplicationFileFolder;
