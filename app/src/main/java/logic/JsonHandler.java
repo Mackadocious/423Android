@@ -1,6 +1,7 @@
 package logic;
 
 import android.content.Context;
+import android.provider.BaseColumns;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -21,6 +22,9 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import logic.PlaceDescription;
+import android.database.sqlite.*;
+
+import static android.database.sqlite.SQLiteDatabase.openOrCreateDatabase;
 
 
 public class JsonHandler {
@@ -31,8 +35,20 @@ public class JsonHandler {
     String path;
     PlaceLibrary placeLibrary = new PlaceLibrary();
 
-// takes parameter for file path of app
+    SQLiteDatabase mydatabase;
+
+
+
+
+
+    // takes parameter for file path of app
     public JsonHandler(String pathToApplicationFileFolder){
+        mydatabase = openOrCreateDatabase(SQLiteDatabase.CursorFactory factory);
+        mydatabase.execSQL("CREATE TABLE IF NOT EXISTS places(name VARCHAR,description VARCHAR, cateogry VARCHAR, addresstitle VARCHAR," +
+                "addressstreet VARCHAR, elevation REAL, longitude REAL, latitude REAL);");
+        //mydatabase.execSQL("INSERT INTO TutorialsPoint VALUES('admin','admin');");
+
+
         path = pathToApplicationFileFolder;
         try {
             readJSON();
