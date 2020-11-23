@@ -1,3 +1,19 @@
+
+/**
+ *
+ * Copyright 2020 Alexander Mack
+ *
+ *This Item is protected by copyright and/or related rights.
+ * You are free to use this Item in any way.
+ * @Author Alexander Mack
+ * mailto: ajmack5@asu.edu
+ * @version Nov 23, 2020
+ *
+ * @Description: Allows users to view the places listed in the database.
+ *
+ */
+
+
 package edu.asu.bsse.ajmack5.GeoLoc;
 
 import android.content.Context;

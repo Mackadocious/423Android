@@ -1,3 +1,20 @@
+
+
+/**
+ *
+ * Copyright 2020 Alexander Mack
+ *
+ *This Item is protected by copyright and/or related rights.
+ * You are free to use this Item in any way.
+ * @Author Alexander Mack
+ * mailto: ajmack5@asu.edu
+ * @version Nov 23, 2020
+ *
+ * @Description: Handles all logic associated with the SQLite database.
+ *
+ */
+
+
 package logic;
 
 import android.content.ContentValues;

@@ -1,3 +1,21 @@
+
+
+/**
+ *
+ * Copyright 2020 Alexander Mack
+ *
+ *This Item is protected by copyright and/or related rights.
+ * You are free to use this Item in any way.
+ * @Author Alexander Mack
+ * mailto: ajmack5@asu.edu
+ * @version Nov 23, 2020
+ *
+ * @Description: The place library stores a list of the individual place descriptions. It provides getters and setters
+ * for the various places that are held within the place library.
+ *
+ */
+
+
 package logic;
 
 import android.os.Parcelable;
